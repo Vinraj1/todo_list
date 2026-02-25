@@ -27,6 +27,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['.vercel.app']
 
+import os
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Application definition
 
@@ -123,3 +125,4 @@ STATIC_URL = 'static/'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
