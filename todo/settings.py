@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-+xa0x5k8w_=#6&z-uxi)u_c)n#)0&jjl(&y#cq_9nw@*(uwb2b
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['.vercel.app']
+ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
 
 import os
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -78,14 +78,14 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 
 import os
 
+from pathlib import Path
+
+BASE_DIR = Path(__file__).resolve().parent.parent
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
