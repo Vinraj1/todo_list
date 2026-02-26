@@ -29,6 +29,7 @@ ALLOWED_HOSTS = ['.vercel.app', 'localhost', '127.0.0.1']
 
 import os
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
 
 # Application definition
 
