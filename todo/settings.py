@@ -29,7 +29,7 @@ ALLOWED_HOSTS = ['*',]
 
 import os
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-SECRET_KEY = os.environ.get('SECRET_KEY', 'fallback-secret-key')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # Application definition
 
@@ -78,18 +78,12 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 import os
-
-import os
+import dj_database_url
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('todo-list-for-vinod'),
-        'USER': os.environ.get('Vinod'),
-        'PASSWORD': os.environ.get('VINOD@render1'),
-        'HOST': os.environ.get('Host-vinod'),
-        'PORT': '5432',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL')
+    )
 }
 
 
