@@ -23,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-+xa0x5k8w_=#6&z-uxi)u_c)n#)0&jjl(&y#cq_9nw@*(uwb2b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['.vercel.app',]
+ALLOWED_HOSTS = ['*',]
 
 import os
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
@@ -84,10 +84,10 @@ import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('DB_NAME'),
-        'USER': os.environ.get('DB_USER'),
-        'PASSWORD': os.environ.get('DB_PASSWORD'),
-        'HOST': os.environ.get('DB_HOST'),
+        'NAME': os.environ.get('todo-list-for-vinod'),
+        'USER': os.environ.get('Vinod'),
+        'PASSWORD': os.environ.get('VINOD@render1'),
+        'HOST': os.environ.get('Host-vinod'),
         'PORT': '5432',
     }
 }
