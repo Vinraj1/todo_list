@@ -49,6 +49,19 @@ if render_url:
     if host and host not in ALLOWED_HOSTS:
         ALLOWED_HOSTS.append(host)
 
+# If we still have no hosts configured, assume we're running in an
+# environment with a dynamically assigned hostname (Render, etc.) and
+# allow all. This is not ideal for a long‑term production app but avoids
+# the app failing to start when the host can't be predicted. We also log
+# a warning so the operator can fix the configuration.
+if not ALLOWED_HOSTS:
+    import logging
+    logging.warning(
+        "ALLOWED_HOSTS is empty; defaulting to ['*']. "
+        "Set the ALLOWED_HOSTS environment variable for production."
+    )
+    ALLOWED_HOSTS = ['*']
+
 # Application definition
 
 INSTALLED_APPS = [

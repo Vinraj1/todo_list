@@ -10,7 +10,13 @@ hostnames are allowed by Django. The settings file reads the
 whitelists the host provided by Render via `RENDER_EXTERNAL_URL`.
 
 Make sure to set `ALLOWED_HOSTS` in your environment or rely on the above
-fallback to avoid `DisallowedHost` errors. For local development you can run:
+fallback to avoid `DisallowedHost` errors. If the variable is omitted the
+settings file will automatically log a warning and allow all hosts (i.e. the
+`['*']` wildcard) so the service can still respond on the dynamically
+allocated Render URL — but you should not rely on that in a real
+production deployment.
+
+For local development you can run:
 
 ```bash
 export ALLOWED_HOSTS=localhost,127.0.0.1
