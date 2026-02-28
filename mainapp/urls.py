@@ -3,7 +3,7 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    # admin path already included in project urls; remove to avoid duplicate namespace warning
     path('',views.signup),
     path('login/',views.loginn),
     path('todopage/',views.todo),

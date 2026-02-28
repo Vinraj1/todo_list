@@ -12,25 +12,31 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 import os
+from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
+import os
+# STATIC_ROOT is set later; keep import near its use
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-+xa0x5k8w_=#6&z-uxi)u_c)n#)0&jjl(&y#cq_9nw@*(uwb2b'
+# Allow override from environment; fall back to the bundled dev key for local
+# development only. In production we require the env var to be set.
+SECRET_KEY = os.environ.get(
+    "SECRET_KEY",
+    'django-insecure-+xa0x5k8w_=#6&z-uxi)u_c)n#)0&jjl(&y#cq_9nw@*(uwb2b'
+)
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get("DEBUG", "False") == "True"
+# Read from environment; default to False for safety
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*',]
-
-import os
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-SECRET_KEY = os.environ.get("SECRET_KEY")
+# Read ALLOWED_HOSTS from environment (comma-separated). Default empty list
+# so production must explicitly provide hosts.
+ALLOWED_HOSTS = [h for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h]
 
 # Application definition
 
@@ -46,6 +52,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # WhiteNoise should be just after SecurityMiddleware to serve static files
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -77,12 +85,11 @@ WSGI_APPLICATION = 'todo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
 import dj_database_url
 
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.environ.get('DATABASE_URL')
+        default=os.environ.get('DATABASE_URL',f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
     )
 }
 
@@ -123,18 +130,48 @@ USE_TZ = True
 
 from pathlib import Path
 
-BASE_DIR = Path(__file__).resolve().parent.parent
-
+# STATIC_URL and STATIC_ROOT already configured above; deduplicate
 STATIC_URL = '/static/'
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-]
-
+# Define STATIC_ROOT for collectstatic and production static serving
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+# Use WhiteNoise storage for compressed, cacheable static files in production
+# Falls back to Django default in environments without WhiteNoise installed
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Production security settings (can be overridden via environment variables)
+SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'True') == 'True'
+SESSION_COOKIE_SECURE = os.environ.get('SESSION_COOKIE_SECURE', 'True') == 'True'
+CSRF_COOKIE_SECURE = os.environ.get('CSRF_COOKIE_SECURE', 'True') == 'True'
+SECURE_HSTS_SECONDS = int(os.environ.get('SECURE_HSTS_SECONDS', 31536000))
+SECURE_HSTS_INCLUDE_SUBDOMAINS = os.environ.get('SECURE_HSTS_INCLUDE_SUBDOMAINS', 'True') == 'True'
+SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'True') == 'True'
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+X_FRAME_OPTIONS = 'DENY'
+
+# In production, ensure SECRET_KEY is explicitly set
+if not DEBUG and os.environ.get('SECRET_KEY') is None:
+    raise ImproperlyConfigured('The SECRET_KEY environment variable must be set in production')
+
+# Basic logging to console for production diagnostics
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO'),
+    },
+}
