@@ -35,8 +35,19 @@ SECRET_KEY = os.environ.get(
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
 # Read ALLOWED_HOSTS from environment (comma-separated). Default empty list
-# so production must explicitly provide hosts.
+# so production must explicitly provide hosts. On Render the external URL
+# is exposed via RENDER_EXTERNAL_URL, so include its hostname automatically
+# if it's not already present. The fallback helps prevent DisallowedHost
+# errors when the app is deployed but ALLOWED_HOSTS hasn't been configured.
 ALLOWED_HOSTS = [h for h in os.environ.get('ALLOWED_HOSTS', '').split(',') if h]
+# When running on Render, the deploy URL is available as an environment
+# variable and should be allowed.
+render_url = os.environ.get('RENDER_EXTERNAL_URL')
+if render_url:
+    # strip scheme and any trailing slash
+    host = render_url.split('://')[-1].rstrip('/')
+    if host and host not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(host)
 
 # Application definition
 
