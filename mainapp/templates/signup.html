@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign-up</title>
+    <title>Todo - Sign-up</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Font Awesome 5 Brands:wght@400&display=swap" />
     <link rel="stylesheet" href="{% static 'index.css' %}">
@@ -15,7 +15,16 @@
 <body>
     <div class="signup-login">
         <div class="signup-box">
-        <form method="post">
+        {% if messages %}
+        <div class="messages" style="margin:12px;">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}" style="padding:10px;border-radius:6px;margin-bottom:8px;background:#fff3f3;color:#8a1f1f;">
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <form method="post" id="signupForm">
             {% csrf_token %}
             <div class="heading">
                 Signup
@@ -31,7 +40,8 @@
         </div>
         <div class="field">
             <b>Password</b>
-            <input type="password" class="inp" name="pwd" required>
+            <input type="password" class="inp" name="pwd" id="pwd" required>
+            <small class="pwd-hint" style="display:block;margin-left:10px;margin-top:8px;color:#ffffffa5;font-size:13px;">Password must be strong (min 8 chars, upper, lower, digit, special).</small>
         </div>
         <div class="field">
             <input type="submit" class="submit-button" value="Signup">
