@@ -20,15 +20,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
-import os
 # STATIC_ROOT is set later; keep import near its use
 # SECURITY WARNING: keep the secret key used in production secret!
 # Allow override from environment; fall back to the bundled dev key for local
 # development only. In production we require the env var to be set.
-SECRET_KEY = os.environ.get(
-    "SECRET_KEY",
-    'django-insecure-+xa0x5k8w_=#6&z-uxi)u_c)n#)0&jjl(&y#cq_9nw@*(uwb2b'
-)
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Read from environment; default to False for safety
@@ -60,7 +56,6 @@ if not ALLOWED_HOSTS:
         "ALLOWED_HOSTS is empty; defaulting to ['*']. "
         "Set the ALLOWED_HOSTS environment variable for production."
     )
-    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
