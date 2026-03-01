@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo - Log-in</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Font Awesome 5 Brands:wght@400&display=swap" />
     <link rel="stylesheet" href="{% static 'index.css' %}">
     <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
 
@@ -15,7 +14,7 @@
 <body>
     <div class="signup-login">
         <div class="signup-box">
-        <form method="post" id="loginForm">
+        <form method="post" id="loginForm" class="form-container">
             {% csrf_token %}
             <div class="heading">
                 Login
@@ -43,8 +42,7 @@
         </div>
         </form>
         <div class="field">
-            <b style="margin-left: 130px;">Create new account</b>
-            <br>
+            <b class="create-account-text">Create new account</b>
             <a class="anc" href="/">Signup</a>
         </div>
         </div>
