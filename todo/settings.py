@@ -56,6 +56,7 @@ if not ALLOWED_HOSTS:
         "ALLOWED_HOSTS is empty; defaulting to ['*']. "
         "Set the ALLOWED_HOSTS environment variable for production."
     )
+    ALLOWED_HOSTS = ['*']
 
 # Application definition
 
