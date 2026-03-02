@@ -14,38 +14,38 @@
 <body>
     <div class="signup-login">
         <div class="signup-box">
-        <form method="post" id="signupForm">
-            {% csrf_token %}
-            <div class="heading">
-                Signup
-            </div>
-        <div class="line"></div>
-        <div class="field">
-            <b>Username</b>
-            <input type="text" required class="inp" placeholder="enter your username" name="frm">
-        </div>
-        <div class="field">
-            <b>Email</b>
-            <input type="email" required class="inp" name="email">
-        </div>
-        <div class="field">
-            <b>Password</b>
-            <input type="password" class="inp" name="pwd" id="pwd" required>
-            <small class="pwd-hint">
-        </div>
-        {% if messages %}
-        <div class="messages" style="margin:12px;">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" style="padding:10px;border-radius:6px;margin-bottom:8px;background:#fff3f3;color:#8a1f1f;">
-                {{ message }}
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        <div class="field">
-            <input type="submit" class="submit-button" value="Signup">
-        </div>
-        </form>
+            <form method="post" id="signupForm">
+                {% csrf_token %}
+                <div class="heading">
+                    Signup
+                </div>
+                <div class="line"></div>
+                <div class="field">
+                    <b>Username</b>
+                    <input type="text" required class="inp" placeholder="Enter your username" name="frm">
+                </div>
+                <div class="field">
+                    <b>Email</b>
+                    <input type="email" required class="inp" name="email">
+                </div>
+                <div class="field">
+                    <b>Password</b>
+                    <input type="password" class="inp" name="pwd" id="pwd" required>
+                    <small class="pwd-hint">
+                </div>
+                {% if messages %}
+                <div class="messages" style="margin:12px;">
+                    {% for message in messages %}
+                    <div class="alert alert-{{ message.tags }}" style="margin-bottom:8px;color:#8a1f1f;">
+                        {{ message }}
+                    </div>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="field">
+                    <input type="submit" class="submit-button" value="signup">
+                </div>
+            </form>
         <div class="field switch-auth">
             <b class="switch-text">Already have an account?</b>
             <a class="anc" href="login">Login</a>

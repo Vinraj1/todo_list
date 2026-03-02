@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
-import os
 from django.core.exceptions import ImproperlyConfigured
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -24,11 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: keep the secret key used in production secret!
 # Allow override from environment; fall back to the bundled dev key for local
 # development only. In production we require the env var to be set.
+import os
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # Read from environment; default to False for safety
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+# In production, ensure SECRET_KEY is explicitly set
+if not DEBUG and SECRET_KEY is None :
+    raise ImproperlyConfigured('The SECRET_KEY environment variable must be set in production')
 
 # Read ALLOWED_HOSTS from environment (comma-separated). Default empty list
 # so production must explicitly provide hosts. On Render the external URL
@@ -176,10 +180,6 @@ SECURE_HSTS_PRELOAD = os.environ.get('SECURE_HSTS_PRELOAD', 'True') == 'True'
 SECURE_BROWSER_XSS_FILTER = True
 SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
-
-# In production, ensure SECRET_KEY is explicitly set
-if not DEBUG and os.environ.get('SECRET_KEY') is None:
-    raise ImproperlyConfigured('The SECRET_KEY environment variable must be set in production')
 
 # Basic logging to console for production diagnostics
 LOGGING = {
