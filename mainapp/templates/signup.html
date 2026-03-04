@@ -1,84 +1,166 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="transition duration-500">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Todo - Sign-up</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-    <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
+    <title>Advanced Signup</title>
 
+    <!-- Tailwind CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
 
+    <style>
+        /* Glassmorphism background */
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        .glass {
+            backdrop-filter: blur(18px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .dark .glass {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* Floating label animation */
+        .input-field input:focus + label,
+        .input-field input:not(:placeholder-shown) + label {
+            transform: translateY(-22px);
+            font-size: 12px;
+            color: #6366f1;
+        }
+    </style>
 </head>
-<body>
 
-<div class="theme-toggle">
-    <i class="fas fa-moon" id="themeIcon"></i>
-</div>
+<body class="min-h-screen flex items-center justify-center p-4 transition duration-500">
 
-<div class="signup-login">
+<!-- Dark Mode Toggle -->
+<button id="themeToggle"
+        class="fixed top-5 right-5 px-4 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black transition">
+    🌙
+</button>
 
-    <div id="particles-js"></div>
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <div class="blob blob3"></div>
+<div class="glass w-full max-w-md rounded-2xl shadow-2xl p-8 animate-fadeIn">
 
-    <div class="signup-box">
+    <h1 class="text-3xl font-bold text-center text-white mb-6">
+        Create Account
+    </h1>
 
-        <form method="post" id="signupForm">
-            {% csrf_token %}
+    <form id="signupForm" method="POST" class="space-y-6">
+        {% csrf_token %}
 
-            <div class="heading">Create Account</div>
-            <div class="line"></div>
-
-            <!-- Username -->
-            <div class="field floating-group">
-                <i class="fas fa-user icon"></i>
-                <input type="text" name="frm" required placeholder=" " class="inp">
-                <label>Username</label>
-            </div>
-
-            <!-- Email -->
-            <div class="field floating-group">
-                <i class="fas fa-envelope icon"></i>
-                <input type="email" name="email" required placeholder=" " class="inp">
-                <label>Email</label>
-            </div>
-
-            <!-- Password -->
-            <div class="field floating-group">
-                <i class="fas fa-lock icon"></i>
-                <input type="password" id="password" name="pwd" required placeholder=" " class="inp">
-                <label>Password</label>
-                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
-            </div>
-
-            {% if messages %}
-            <div class="messages">
-                {% for message in messages %}
-                <div class="alert">{{ message }}</div>
-                {% endfor %}
-            </div>
-            {% endif %}
-
-            <button type="submit" class="submit-button" id="signupBtn">
-                <span class="btn-text">Signup</span>
-                <span class="spinner"></span>
-            </button>
-
-        </form>
-
-        <div class="switch-auth">
-            <span class="create-account-text">Already have an account?</span>
-            <a class="anc" href="login">Login</a>
+        <!-- Username -->
+        <div class="input-field relative">
+            <input type="text" name="username" required
+                placeholder=" "
+                class="w-full p-3 rounded-lg bg-white/80 dark:bg-gray-800 text-black dark:text-white focus:outline-none" />
+            <label class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none">
+                Username
+            </label>
         </div>
 
-    </div>
+        <!-- Email -->
+        <div class="input-field relative">
+            <input type="email" name="email" required
+                placeholder=" "
+                class="w-full p-3 rounded-lg bg-white/80 dark:bg-gray-800 text-black dark:text-white focus:outline-none" />
+            <label class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none">
+                Email
+            </label>
+        </div>
+
+        <!-- Password -->
+        <div class="input-field relative">
+            <input type="password" id="password" name="password" required
+                placeholder=" "
+                class="w-full p-3 rounded-lg bg-white/80 dark:bg-gray-800 text-black dark:text-white focus:outline-none pr-10" />
+            <label class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none">
+                Password
+            </label>
+
+            <span onclick="togglePassword()"
+                class="absolute right-3 top-3 cursor-pointer text-gray-600 dark:text-gray-300">
+                👁
+            </span>
+        </div>
+
+        <button type="submit"
+            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition transform hover:scale-105 duration-300">
+            Sign Up
+        </button>
+    </form>
+
+    <p id="errorMsg" class="text-red-400 text-sm mt-4 text-center"></p>
+
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script src="{% static 'main.js' %}"></script>
+<!-- Animations -->
+<style>
+@keyframes fadeIn {
+    from {opacity: 0; transform: translateY(30px);}
+    to {opacity: 1; transform: translateY(0);}
+}
+.animate-fadeIn {
+    animation: fadeIn 0.8s ease-in-out;
+}
+</style>
+
+<!-- Advanced JavaScript -->
+<script>
+
+// ================================
+// DARK MODE FIXED (Fully Working)
+// ================================
+const html = document.documentElement;
+const toggleBtn = document.getElementById("themeToggle");
+
+// Load saved theme
+if(localStorage.getItem("theme") === "dark") {
+    html.classList.add("dark");
+    toggleBtn.innerText = "☀";
+}
+
+// Toggle theme
+toggleBtn.addEventListener("click", () => {
+    html.classList.toggle("dark");
+
+    if(html.classList.contains("dark")) {
+        localStorage.setItem("theme", "dark");
+        toggleBtn.innerText = "☀";
+    } else {
+        localStorage.setItem("theme", "light");
+        toggleBtn.innerText = "🌙";
+    }
+});
+
+// ================================
+// PASSWORD SHOW/HIDE
+// ================================
+function togglePassword() {
+    const password = document.getElementById("password");
+    password.type = password.type === "password" ? "text" : "password";
+}
+
+// ================================
+// ADVANCED VALIDATION
+// ================================
+document.getElementById("signupForm").addEventListener("submit", function(e) {
+
+    const password = document.getElementById("password").value;
+    const errorMsg = document.getElementById("errorMsg");
+
+    const strongPassword = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
+
+    if(!strongPassword.test(password)) {
+        e.preventDefault();
+        errorMsg.innerText =
+        "Password must be 8+ chars, 1 uppercase, 1 number & 1 special character.";
+    }
+});
+
+</script>
 
 </body>
 </html>
