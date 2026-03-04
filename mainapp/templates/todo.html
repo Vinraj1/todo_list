@@ -47,6 +47,16 @@ class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transit
 Add
 </button>
 
+{% if messages %}
+    <div class="form-messages">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 <div class="space-y-4"></div>
 {% for i in data %}
 <div class="flex justify-between items-center bg-white/80 p-4 rounded-lg">
