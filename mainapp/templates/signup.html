@@ -2,184 +2,182 @@
 <!DOCTYPE html>
 <html lang="en" class="transition duration-500">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Signup</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign Up</title>
 
-    <!-- Tailwind CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.tailwindcss.com"></script>
 
-    <style>
-        /* Glassmorphism background */
-        body {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
-
-        .glass {
-            backdrop-filter: blur(18px);
-            background: rgba(255, 255, 255, 0.15);
-        }
-
-        .dark .glass {
-            background: rgba(0, 0, 0, 0.3);
-        }
-
-        /* Floating label animation */
-        .input-field input:focus + label,
-        .input-field input:not(:placeholder-shown) + label {
-            transform: translateY(-22px);
-            font-size: 12px;
-            color: #6366f1;
-        }
-    </style>
-</head>
-
-<body class="min-h-screen flex items-center justify-center p-4 transition duration-500">
-
-<!-- Dark Mode Toggle -->
-<button id="themeToggle"
-        class="fixed top-5 right-5 px-4 py-2 rounded-full bg-black text-white dark:bg-white dark:text-black transition">
-    🌙
-</button>
-
-<div class="glass w-full max-w-md rounded-2xl shadow-2xl p-8 animate-fadeIn">
-
-    <h1 class="text-3xl font-bold text-center text-white mb-6">
-        Create Account
-    </h1>
-
-    <form id="signupForm" method="POST" class="space-y-6">
-        {% csrf_token %}
-
-        <!-- Username -->
-        <div class="input-field relative">
-            <input type="text" name="username" required
-                placeholder=" "
-                class="w-full p-3 rounded-lg bg-white/80 dark:bg-gray-800 text-black dark:text-white focus:outline-none" />
-            <label class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none">
-                Username
-            </label>
-        </div>
-
-        <!-- Email -->
-        <div class="input-field relative">
-            <input type="email" name="email" required
-                placeholder=" "
-                class="w-full p-3 rounded-lg bg-white/80 dark:bg-gray-800 text-black dark:text-white focus:outline-none" />
-            <label class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none">
-                Email
-            </label>
-        </div>
-
-        <!-- Password -->
-        <div class="input-field relative">
-            <input type="password" id="password" name="password" required
-                placeholder=" "
-                class="w-full p-3 rounded-lg bg-white/80 dark:bg-gray-800 text-black dark:text-white focus:outline-none pr-10" />
-            <label class="absolute left-3 top-3 text-gray-500 transition-all duration-300 pointer-events-none">
-                Password
-            </label>
-
-            <span onclick="togglePassword()"
-                class="absolute right-3 top-3 cursor-pointer text-gray-600 dark:text-gray-300">
-                👁
-            </span>
-        </div>
-
-        <button type="submit"
-            class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition transform hover:scale-105 duration-300">
-            Sign Up
-        </button>
-    </form>
-
-    <p id="errorMsg" class="text-red-400 text-sm mt-4 text-center"></p>
-<div class="mt-6 text-center space-y-2">
-
-    <!-- Already have account -->
-    <p class="text-white text-sm">
-        Already have an account?
-        <a href="{% url 'login' %}" 
-           class="text-yellow-300 hover:underline">
-            Login
-        </a>
-    </p>
-
-    <!-- Forgot password -->
-    <p class="text-white text-sm">
-        <a href="{% url 'password_reset' %}" 
-           class="text-yellow-300 hover:underline">
-            Forgot Password?
-        </a>
-    </p>
-
-</div>
-
-</div>
-
-<!-- Animations -->
 <style>
-@keyframes fadeIn {
-    from {opacity: 0; transform: translateY(30px);}
-    to {opacity: 1; transform: translateY(0);}
+/* =========================
+   DYNAMIC ANIMATED BACKGROUND
+========================= */
+body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+
+    background: linear-gradient(
+        -45deg,
+        #667eea,
+        #764ba2,
+        #6b8cff,
+        #8f94fb
+    );
+
+    background-size: 400% 400%;
+    animation: gradientMove 18s ease infinite;
 }
-.animate-fadeIn {
-    animation: fadeIn 0.8s ease-in-out;
+
+@keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Floating glow effect */
+.bg-glow {
+    position: fixed;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(255,255,255,0.15), transparent);
+    border-radius: 50%;
+    top: 10%;
+    left: 20%;
+    animation: floatGlow 12s ease-in-out infinite alternate;
+    z-index: -1;
+}
+
+@keyframes floatGlow {
+    from { transform: translateY(0px) translateX(0px); }
+    to { transform: translateY(80px) translateX(60px); }
+}
+
+/* Glass card */
+.glass {
+    backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.dark .glass {
+    background: rgba(0, 0, 0, 0.35);
+}
+
+/* Floating label animation */
+.input-group input:focus + label,
+.input-group input:not(:placeholder-shown) + label {
+    transform: translateY(-18px);
+    font-size: 12px;
+    color: #6366f1;
 }
 </style>
+</head>
 
-<!-- Advanced JavaScript -->
+<body class="flex items-center justify-center p-4">
+
+<div class="bg-glow"></div>
+
+<div class="glass w-full max-w-md p-8 rounded-2xl shadow-2xl">
+
+<h1 class="text-3xl font-bold text-white text-center mb-6">
+Create Account
+</h1>
+
+<form method="POST" action="{% url 'signup' %}" class="space-y-6">
+{% csrf_token %}
+
+<!-- Username -->
+<div class="input-group relative">
+<input type="text" name="username" required placeholder=" "
+class="w-full p-3 rounded-lg bg-white/80 text-black focus:outline-none">
+<label class="absolute left-3 top-3 text-gray-600 transition-all duration-300 pointer-events-none">
+Username
+</label>
+</div>
+
+<!-- Email -->
+<div class="input-group relative">
+<input type="email" name="email" required placeholder=" "
+class="w-full p-3 rounded-lg bg-white/80 text-black focus:outline-none">
+<label class="absolute left-3 top-3 text-gray-600 transition-all duration-300 pointer-events-none">
+Email
+</label>
+</div>
+
+<!-- Password -->
+<div class="input-group relative">
+<input type="password" id="password" name="password" required placeholder=" "
+class="w-full p-3 rounded-lg bg-white/80 text-black focus:outline-none pr-10">
+<label class="absolute left-3 top-3 text-gray-600 transition-all duration-300 pointer-events-none">
+Password
+</label>
+
+<span onclick="togglePassword()"
+class="absolute right-3 top-3 cursor-pointer">
+👁
+</span>
+
+<!-- Strength bar -->
+<div class="h-2 bg-gray-300 rounded mt-2">
+<div id="strengthBar" class="h-2 rounded"></div>
+</div>
+</div>
+
+<button type="submit"
+class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg font-semibold transition transform hover:scale-105 duration-300">
+Sign Up
+</button>
+
+<!-- Login + Forgot -->
+<div class="mt-6 text-center space-y-2">
+
+<p class="text-white text-sm">
+Already have an account?
+<a href="{% url 'login' %}" class="text-yellow-300 hover:underline">
+Login
+</a>
+</p>
+
+<p class="text-white text-sm">
+<a href="{% url 'password_reset' %}" class="text-yellow-300 hover:underline">
+Forgot Password?
+</a>
+</p>
+
+</div>
+
+</form>
+
+</div>
+
 <script>
-
-// ================================
-// DARK MODE FIXED (Fully Working)
-// ================================
-const html = document.documentElement;
-const toggleBtn = document.getElementById("themeToggle");
-
-// Load saved theme
-if(localStorage.getItem("theme") === "dark") {
-    html.classList.add("dark");
-    toggleBtn.innerText = "☀";
+/* =========================
+   PASSWORD TOGGLE
+========================= */
+function togglePassword(){
+    const pass = document.getElementById("password");
+    pass.type = pass.type === "password" ? "text" : "password";
 }
 
-// Toggle theme
-toggleBtn.addEventListener("click", () => {
-    html.classList.toggle("dark");
+/* =========================
+   PASSWORD STRENGTH
+========================= */
+const passwordInput = document.getElementById("password");
+const strengthBar = document.getElementById("strengthBar");
 
-    if(html.classList.contains("dark")) {
-        localStorage.setItem("theme", "dark");
-        toggleBtn.innerText = "☀";
-    } else {
-        localStorage.setItem("theme", "light");
-        toggleBtn.innerText = "🌙";
-    }
+passwordInput.addEventListener("input", () => {
+    const val = passwordInput.value;
+    let strength = 0;
+
+    if(val.length > 6) strength++;
+    if(/[A-Z]/.test(val)) strength++;
+    if(/[0-9]/.test(val)) strength++;
+    if(/[@$!%*?&]/.test(val)) strength++;
+
+    const colors = ["red","orange","yellow","green"];
+    strengthBar.style.width = (strength * 25) + "%";
+    strengthBar.style.background = colors[strength-1] || "transparent";
 });
-
-// ================================
-// PASSWORD SHOW/HIDE
-// ================================
-function togglePassword() {
-    const password = document.getElementById("password");
-    password.type = password.type === "password" ? "text" : "password";
-}
-
-// ================================
-// ADVANCED VALIDATION
-// ================================
-document.getElementById("signupForm").addEventListener("submit", function(e) {
-
-    const password = document.getElementById("password").value;
-    const errorMsg = document.getElementById("errorMsg");
-
-    const strongPassword = /^(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*?&]).{8,}$/;
-
-    if(!strongPassword.test(password)) {
-        e.preventDefault();
-        errorMsg.innerText =
-        "Password must be 8+ chars, 1 uppercase, 1 number & 1 special character.";
-    }
-});
-
 </script>
 
 </body>
