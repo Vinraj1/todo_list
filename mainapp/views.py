@@ -77,7 +77,7 @@ def loginn(request):
 @login_required(login_url='/login')
 def todo(request):
     if request.method == 'POST':
-        title=request.POST.get('title')
+        title=request.POST.get('task')
         if not title:
             messages.error(request, "Task cannot be empty.")
             return redirect('todopage')
