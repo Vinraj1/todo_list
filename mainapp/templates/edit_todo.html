@@ -40,7 +40,7 @@ Edit Task
 <form method="POST">
 {% csrf_token %}
 
-<input type="text" name="task" value="{{ data.task }}"
+<input type="text" name="title" value="{{ obj.title }}"
 class="w-full p-3 rounded-lg bg-white/80 mb-6 focus:outline-none">
 
 <button type="submit"
