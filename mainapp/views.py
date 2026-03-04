@@ -78,6 +78,9 @@ def loginn(request):
 def todo(request):
     if request.method == 'POST':
         title=request.POST.get('title')
+        if not title:
+            messages.error(request, "Task cannot be empty.")
+            return redirect('todopage')
         print(title)
         obj=models.TODOO(title=title,user=request.user)
         obj.save()
