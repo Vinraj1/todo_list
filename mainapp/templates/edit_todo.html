@@ -2,66 +2,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ToDo</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
-    <link rel="stylesheet" href="{% static 'styles.css' %}">
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-    <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Edit Todo</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body {
+    min-height:100vh;
+    background: linear-gradient(-45deg,#667eea,#764ba2,#6b8cff,#8f94fb);
+    background-size:400% 400%;
+    animation: gradientMove 18s ease infinite;
+}
+
+@keyframes gradientMove {
+0%{background-position:0% 50%}
+50%{background-position:100% 50%}
+100%{background-position:0% 50%}
+}
+
+.glass {
+    backdrop-filter: blur(20px);
+    background: rgba(255,255,255,0.15);
+}
+</style>
 </head>
-<body>
 
-<div class="theme-toggle">
-    <i class="fas fa-moon" id="themeIcon"></i>
+<body class="flex items-center justify-center p-4">
+
+<div class="glass w-full max-w-md p-8 rounded-2xl shadow-2xl">
+
+<h1 class="text-2xl text-white text-center mb-6 font-bold">
+Edit Task
+</h1>
+
+<form method="POST">
+{% csrf_token %}
+
+<input type="text" name="task" value="{{ data.task }}"
+class="w-full p-3 rounded-lg bg-white/80 mb-6 focus:outline-none">
+
+<button type="submit"
+class="w-full py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg transition transform hover:scale-105">
+Update
+</button>
+
+</form>
+
+<div class="text-center mt-6">
+<a href="{% url 'todopage' %}"
+class="text-white underline hover:text-yellow-300">
+Back to Todo
+</a>
 </div>
 
-<div class="signup-login">
-
-    <div id="particles-js"></div>
-    <div class="blob blob1"></div>
-    <div class="blob blob2"></div>
-    <div class="blob blob3"></div>
-
-    <div class="signup-box scr">
-
-        <div style="display:flex; justify-content:space-between; align-items:center;">
-            <h2>Hello {{user}}</h2>
-            <a href="{% url 'signout' %}">
-                <i class="fa-solid fa-right-from-bracket"></i>
-            </a>
-        </div>
-
-        <div class="heading">Edit Task</div>
-        <div class="line"></div>
-
-        <form method="post" id="editForm">
-            {% csrf_token %}
-
-            <div class="field floating-group">
-                <i class="fas fa-pen icon"></i>
-                <input type="text"
-                       name="title"
-                       value="{{obj.title}}"
-                       required
-                       placeholder=" "
-                       class="inp">
-                <label>Edit your task</label>
-            </div>
-
-            <input type="hidden" name="srno" value="{{obj.srno}}">
-
-            <button type="submit" class="submit-button" id="updateBtn">
-                <span class="btn-text">Update Task</span>
-                <span class="spinner"></span>
-            </button>
-        </form>
-
-    </div>
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script src="{% static 'main.js' %}"></script>
-
 </body>
 </html>
