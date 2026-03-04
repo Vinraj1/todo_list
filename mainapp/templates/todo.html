@@ -11,34 +11,64 @@
     <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
 </head>
 <body>
-    <div class="signup-login">
-        <div>
-        <div style="text-align: center;">
-            <h1>Hello {{user}}</h1>
+
+<div class="theme-toggle">
+    <i class="fas fa-moon" id="themeIcon"></i>
+</div>
+
+<div class="signup-login">
+
+    <div id="particles-js"></div>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <div class="signup-box scr">
+
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2>Hello {{user}}</h2>
+            <a href="{% url 'signout' %}">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </a>
         </div>
-        <div class="signup-box scr">
-            <div class="heading">
-                Get Things Done
+
+        <div class="heading">Your Tasks</div>
+        <div class="line"></div>
+
+        <form method="post" id="todoForm">
+            {% csrf_token %}
+
+            <div class="field floating-group">
+                <i class="fas fa-plus icon"></i>
+                <input type="text" name="title" required placeholder=" " class="inp">
+                <label>Add a new task</label>
             </div>
-            <div class="anca"><a class="sign" href="{% url 'signout' %}"><i class="fa-solid fa-right-from-bracket"></i></a></div>
-            <form method="post">
-                {% csrf_token %}
-                <input type="text" class="inp" name="title" required placeholder="Add today's task : ">
-                <input type="submit" class="submit-button" value="Add Task">
-            
-            </form>
-            {% for todo in res %}
-            <div class="todo">
-                <p>{{todo.title}}</p>
-                <div>
-                    <a href="/edit_todo/{{todo.srno}}"><i class="fa-solid fa-file-pen"></i></a>
-                    <a href="/delete_todo/{{todo.srno}}"><i class="fa-solid fa-trash"></i></a>
-                    
-                </div>
+
+            <button type="submit" class="submit-button" id="addTaskBtn">
+                <span class="btn-text">Add Task</span>
+                <span class="spinner"></span>
+            </button>
+        </form>
+
+        {% for todo in res %}
+        <div class="todo glass-todo">
+            <p>{{todo.title}}</p>
+            <div>
+                <a href="/edit_todo/{{todo.srno}}">
+                    <i class="fa-solid fa-pen"></i>
+                </a>
+                <a href="/delete_todo/{{todo.srno}}">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
             </div>
-            {% endfor %}
         </div>
-        </div>
+        {% endfor %}
+
     </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="{% static 'main.js' %}"></script>
+
 </body>
 </html>

@@ -1,130 +1,199 @@
-  .App {
-    text-align: center;
-  }
-  
-  h1 {
-    color: #fff;
-    margin-bottom: 0.5rem;
-    font-size: 1.75rem;
-  }
-  
-  .TodoWrapper {
-    background-color: #252525;
-    margin-top: 50px;
-    padding: 20px;
-    border-radius: 10px;
-    width: 100%;
-    max-width: 600px;   /* keeps it centered and clean */
-    margin-left: auto;
-    margin-right: auto;
+/* ================= ROOT COLORS ================= */
+
+:root {
+    --glass-bg: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(255, 255, 255, 0.2);
+    --text-color: #ffffff;
+    --neon: #00f5ff;
 }
-  
-  .TodoForm {
+
+body.light {
+    --glass-bg: rgba(255, 255, 255, 0.6);
+    --glass-border: rgba(0, 0, 0, 0.1);
+    --text-color: #111;
+    --neon: #0077ff;
+}
+
+/* ================= WRAPPER ================= */
+
+.TodoWrapper {
+    width: 100%;
+    max-width: 650px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 20px;
+
+    background: var(--glass-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    border: 1px solid var(--glass-border);
+
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+
+    color: var(--text-color);
+
+    transition: 0.3s ease;
+}
+
+/* 3D hover tilt */
+.TodoWrapper:hover {
+    transform: rotateY(4deg) rotateX(3deg);
+}
+
+/* ================= HEADINGS ================= */
+
+h1, h2 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+
+/* ================= FORM ================= */
+
+.TodoForm {
     display: flex;
     gap: 10px;
-    flex-wrap: wrap;
+    margin-bottom: 20px;
 }
-  
-  .todo-input {
+
+.todo-input {
+    flex: 1;
+    padding: 12px 15px;
+    border-radius: 12px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255,255,255,0.15);
+    color: var(--text-color);
     outline: none;
-    background: none;
-    border: 1px solid #8758ff;
-    padding: 0.75rem 1rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    width: 100%;              /* important */
-    max-width: 100%;
-    color: #fff;
-    box-sizing: border-box;
-    border-radius: 5px;
+    transition: 0.3s ease;
 }
-  
-  .todo-input::placeholder {
-    color: #ffffff4d;
-  }
-  
-  .todo-btn {
-    width: auto;
-    margin-top: 10px;
-    background: #8758ff;
-    color: #fff;
+
+/* Neon focus glow */
+.todo-input:focus {
+    border-color: var(--neon);
+    box-shadow: 0 0 12px var(--neon);
+}
+
+.todo-input::placeholder {
+    color: rgba(255,255,255,0.6);
+}
+
+/* ================= BUTTON ================= */
+
+.todo-btn {
+    padding: 12px 18px;
+    border-radius: 12px;
     border: none;
-    padding: 0.75rem;
+
+    background: var(--neon);
+    color: #000;
+    font-weight: 600;
     cursor: pointer;
-    border-radius: 5px;
+
+    transition: 0.3s ease;
 }
-  
-  .Todo {
+
+.todo-btn:hover {
+    box-shadow: 0 0 15px var(--neon);
+    transform: scale(1.05);
+}
+
+/* ================= TASK CARD ================= */
+
+.Todo,
+.glass-todo {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: #ffff00a9;
-    color: #000;
-    border-radius: 5px;
-    margin: 10px 0;
-    padding: 10px;
-    font-size: 1rem;
-    flex-wrap: wrap;    /* prevents overflow */
+
+    padding: 14px 16px;
+    margin-bottom: 12px;
+    border-radius: 14px;
+
+    background: rgba(255,255,255,0.15);
+    backdrop-filter: blur(10px);
+
+    transition: 0.3s ease;
 }
 
-  .scr{
-    overflow-y:scroll;
-  }
-  .scr::-webkit-scrollbar {
-    width: 0;
-  }
-  
-  .fa-trash {
-    margin-left: 0.75rem;
-  }
-  
-  .completed {
-    color: #c5aeff;
+/* Hover animation */
+.Todo:hover,
+.glass-todo:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 0 15px rgba(255,255,255,0.2);
+}
+
+/* Completed task */
+.completed {
     text-decoration: line-through;
-  }
-
-  .todo-btn:hover {
-    background: #8758ff;
-    color: #fff;
-    border: none;
-    padding: 0.55rem;
-    cursor: pointer;
-    box-shadow: 0 0 10px #8758ff;
-  }
-
-a{
-  text-decoration: none;
-  color: #fff;
-  font-size: 20px;
-  font-weight: 500;
-  margin-left: 10px;
-  margin-top: 20px;
-  margin-bottom: 20px;
+    opacity: 0.6;
 }
+
+/* ================= ICONS ================= */
+
+.fa-trash,
+.fa-pen {
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.fa-trash:hover {
+    color: #ff4d4d;
+    transform: scale(1.2);
+}
+
+.fa-pen:hover {
+    color: var(--neon);
+    transform: scale(1.2);
+}
+
+/* ================= SCROLL AREA ================= */
+
+.scr {
+    max-height: 70vh;
+    overflow-y: auto;
+    padding-right: 5px;
+}
+
+.scr::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scr::-webkit-scrollbar-thumb {
+    background: var(--neon);
+    border-radius: 10px;
+}
+
+/* ================= TASK COLORS ================= */
 
 .todo-green {
-  background-color: green;
-  /* Add other styles as needed */
+    background: rgba(0,255,0,0.2);
 }
 
 .todo-red {
-  background-color: red;
-  /* Add other styles as needed */
+    background: rgba(255,0,0,0.2);
 }
 
-.anca{
-  font-size: 25px;
-    margin-top: 7px;
-    /* margin-left: -68px; */
-    margin-right: -41px;
-}
-.heads{
-  display: flex;
-    justify-content: space-evenly;
+/* ================= LINKS ================= */
+
+a {
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: 500;
+    transition: 0.3s ease;
 }
 
-/* Mobile Devices */
+a:hover {
+    color: var(--neon);
+}
+
+/* ================= RESPONSIVE ================= */
+
 @media (max-width: 600px) {
+
+    .TodoWrapper {
+        padding: 20px;
+    }
+
     .TodoForm {
         flex-direction: column;
     }
@@ -132,12 +201,11 @@ a{
     .todo-btn {
         width: 100%;
     }
-}
 
-/* Tablet */
-@media (min-width: 601px) and (max-width: 1024px) {
-
-    .TodoWrapper {
-        max-width: 500px;
+    .Todo,
+    .glass-todo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
     }
 }

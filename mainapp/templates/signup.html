@@ -12,45 +12,73 @@
 
 </head>
 <body>
-    <div class="signup-login">
-        <div class="signup-box">
-            <form method="post" id="signupForm">
-                {% csrf_token %}
-                <div class="heading">
-                    Signup
-                </div>
-                <div class="line"></div>
-                <div class="field">
-                    <b>Username</b>
-                    <input type="text" required class="inp" placeholder="Enter your username" name="frm">
-                </div>
-                <div class="field">
-                    <b>Email</b>
-                    <input type="email" required class="inp" name="email">
-                </div>
-                <div class="field">
-                    <b>Password</b>
-                    <input type="password" class="inp" name="pwd" id="pwd" required>
-                    <small class="pwd-hint">
-                </div>
-                {% if messages %}
-                <div class="messages" style="margin:12px;">
-                    {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }}" style="margin-bottom:8px;background-color:azure; color:#8a1f1f;">
-                        {{ message }}
-                    </div>
-                    {% endfor %}
-                </div>
-                {% endif %}
-                <div class="field">
-                    <input type="submit" class="submit-button" value="Signup">
-                </div>
-            </form>
-        <div class="field switch-auth">
-            <b class="switch-text">Already have an account?</b>
+
+<div class="theme-toggle">
+    <i class="fas fa-moon" id="themeIcon"></i>
+</div>
+
+<div class="signup-login">
+
+    <div id="particles-js"></div>
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <div class="signup-box">
+
+        <form method="post" id="signupForm">
+            {% csrf_token %}
+
+            <div class="heading">Create Account</div>
+            <div class="line"></div>
+
+            <!-- Username -->
+            <div class="field floating-group">
+                <i class="fas fa-user icon"></i>
+                <input type="text" name="frm" required placeholder=" " class="inp">
+                <label>Username</label>
+            </div>
+
+            <!-- Email -->
+            <div class="field floating-group">
+                <i class="fas fa-envelope icon"></i>
+                <input type="email" name="email" required placeholder=" " class="inp">
+                <label>Email</label>
+            </div>
+
+            <!-- Password -->
+            <div class="field floating-group">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" id="password" name="pwd" required placeholder=" " class="inp">
+                <label>Password</label>
+                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
+            </div>
+
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <button type="submit" class="submit-button" id="signupBtn">
+                <span class="btn-text">Signup</span>
+                <span class="spinner"></span>
+            </button>
+
+        </form>
+
+        <div class="switch-auth">
+            <span class="create-account-text">Already have an account?</span>
             <a class="anc" href="login">Login</a>
         </div>
-        </div>
+
     </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script src="{% static 'main.js' %}"></script>
+
 </body>
 </html>
