@@ -160,6 +160,8 @@ STATIC_URL = '/static/'
 # Define STATIC_ROOT for collectstatic and production static serving
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
 # Use WhiteNoise storage for compressed, cacheable static files in production
 # Falls back to Django default in environments without WhiteNoise installed
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
