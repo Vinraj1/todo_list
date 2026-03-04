@@ -93,6 +93,26 @@
     </form>
 
     <p id="errorMsg" class="text-red-400 text-sm mt-4 text-center"></p>
+<div class="mt-6 text-center space-y-2">
+
+    <!-- Already have account -->
+    <p class="text-white text-sm">
+        Already have an account?
+        <a href="{% url 'login' %}" 
+           class="text-yellow-300 hover:underline">
+            Login
+        </a>
+    </p>
+
+    <!-- Forgot password -->
+    <p class="text-white text-sm">
+        <a href="{% url 'password_reset' %}" 
+           class="text-yellow-300 hover:underline">
+            Forgot Password?
+        </a>
+    </p>
+
+</div>
 
 </div>
 
