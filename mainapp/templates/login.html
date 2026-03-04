@@ -8,22 +8,31 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap" />
     <link rel="stylesheet" href="{% static 'index.css' %}">
     <script src="https://kit.fontawesome.com/cb792c0850.js" crossorigin="anonymous"></script>
+    <!-- Particle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
 
 
 </head>
 <body>
 
+<body>
+
+<!-- Theme Toggle -->
 <div class="theme-toggle">
     <i class="fas fa-moon" id="themeIcon"></i>
 </div>
 
 <div class="signup-login">
 
+    <!-- Particle Background -->
+    <div id="particles-js"></div>
+
     <!-- Floating Blobs -->
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
     <div class="blob blob3"></div>
 
+    <!-- Glass Login Card -->
     <div class="signup-box">
 
         <form method="post" id="loginForm" class="form-container">
@@ -32,22 +41,32 @@
             <div class="heading">Login</div>
             <div class="line"></div>
 
-            <div class="field input-group">
+            <!-- Username -->
+            <div class="field floating-group">
                 <i class="fas fa-user icon"></i>
-                <input type="text" required class="inp"
-                       placeholder="Enter your username"
+                <input type="text"
+                       required
+                       class="inp"
                        name="frm"
-                       value="{{ frm|default:'' }}">
+                       value="{{ frm|default:'' }}"
+                       placeholder=" " />
+                <label>Username</label>
             </div>
 
-            <div class="field input-group">
+            <!-- Password -->
+            <div class="field floating-group">
                 <i class="fas fa-lock icon"></i>
-                <input type="password" class="inp" id="password"
-                       name="pwd" required
-                       placeholder="Enter your password">
+                <input type="password"
+                       id="password"
+                       class="inp"
+                       name="pwd"
+                       required
+                       placeholder=" " />
+                <label>Password</label>
                 <i class="fas fa-eye toggle-password" id="togglePassword"></i>
             </div>
 
+            <!-- Django Messages -->
             {% if messages %}
             <div class="messages">
                 {% for message in messages %}
@@ -56,11 +75,15 @@
             </div>
             {% endif %}
 
-            <div class="field">
-                <input type="submit" class="submit-button" value="Login">
-            </div>
+            <!-- Login Button -->
+            <button type="submit" class="submit-button" id="loginBtn">
+                <span class="btn-text">Login</span>
+                <span class="spinner"></span>
+            </button>
+
         </form>
 
+        <!-- Signup Link -->
         <div class="switch-auth">
             <span class="create-account-text">Create new account</span>
             <a class="anc" href="/">Signup</a>
@@ -69,6 +92,11 @@
     </div>
 </div>
 
+<!-- Particle JS Library -->
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+
+<!-- Main Script -->
 <script src="{% static 'main.js' %}"></script>
+
 </body>
 </html>
