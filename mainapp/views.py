@@ -67,7 +67,7 @@ def loginn(request):
         userr = authenticate(request, username=frm, password=pwd)
         if userr is not None:
             login(request, userr)
-            return redirect('/todopage')
+            return redirect('todopage')
         else:
             messages.error(request, 'Invalid username or password.')
             return render(request, 'login.html', {'frm': frm})

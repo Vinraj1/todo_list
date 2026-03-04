@@ -103,6 +103,16 @@ Forgot Password?
 </p>
 </div>
 
+{% if messages %}
+    <div class="form-messages">
+        {% for message in messages %}
+            <div class="alert {{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+{% endif %}
+
 </form>
 </div>
 
