@@ -12,40 +12,63 @@
 
 </head>
 <body>
-    <div class="signup-login">
-        <div class="signup-box">
+
+<div class="theme-toggle">
+    <i class="fas fa-moon" id="themeIcon"></i>
+</div>
+
+<div class="signup-login">
+
+    <!-- Floating Blobs -->
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+
+    <div class="signup-box">
+
         <form method="post" id="loginForm" class="form-container">
             {% csrf_token %}
-            <div class="heading">
-                Login
+
+            <div class="heading">Login</div>
+            <div class="line"></div>
+
+            <div class="field input-group">
+                <i class="fas fa-user icon"></i>
+                <input type="text" required class="inp"
+                       placeholder="Enter your username"
+                       name="frm"
+                       value="{{ frm|default:'' }}">
             </div>
-        <div class="line"></div>
-        <div class="field">
-            <b>Username</b>
-            <input type="text" required class="inp" placeholder="enter your username" name="frm" value="{{ frm|default:'' }}">
-        </div>
-        <div class="field">
-            <b>Password</b>
-            <input type="password" class="inp" name="pwd" required>
-        </div>
-        {% if messages %}
-        <div class="messages" style="margin:12px;">
-            {% for message in messages %}
-            <div class="alert alert-{{ message.tags }}" style="padding:10px;border-radius:6px;margin-bottom:8px;background:#fff3f3;color:#8a1f1f;">
-                {{ message }}
+
+            <div class="field input-group">
+                <i class="fas fa-lock icon"></i>
+                <input type="password" class="inp" id="password"
+                       name="pwd" required
+                       placeholder="Enter your password">
+                <i class="fas fa-eye toggle-password" id="togglePassword"></i>
             </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-        <div class="field">
-            <input type="submit" class="submit-button" value="Login">
-        </div>
+
+            {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                <div class="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="field">
+                <input type="submit" class="submit-button" value="Login">
+            </div>
         </form>
-        <div class="field">
-            <b class="create-account-text">Create new account</b>
+
+        <div class="switch-auth">
+            <span class="create-account-text">Create new account</span>
             <a class="anc" href="/">Signup</a>
         </div>
-        </div>
+
     </div>
+</div>
+
+<script src="{% static 'main.js' %}"></script>
 </body>
 </html>
